@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Option</title>
+</head>
+<body>
+    <h1>Welcome to Saygex, <span id="userName"></span>!</h1>
+    <p>What would you like to do?</p>
+    <button onclick="goToChat()">Chat</button>
+    <button onclick="goToVideoCall()">Video Call</button>
+
+    <script>
+        // Retrieve user's name from localStorage
+        const userName = localStorage.getItem('userName');
+        document.getElementById('userName').textContent = userName;
+
+        function goToChat() {
+            window.location.href = 'chat.html';
+        }
+
+        function goToVideoCall() {
+            window.location.href = 'video_call.html';
+        }
+    </script>
+</body>
+</html>

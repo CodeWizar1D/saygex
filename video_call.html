@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+</head>
+<body>
+    <h1>Video Call</h1>
+    <div>
+        <video id="localVideo" autoplay muted style="width: 50%;"></video>
+        <video id="remoteVideo" autoplay style="width: 50%;"></video>
+    </div>
+
+    <script>
+        // Function to start video call
+        async function startVideoCall() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                const localVideo = document.getElementById('localVideo');
+                localVideo.srcObject = stream;
+
+                const peerConnection = new RTCPeerConnection();
+
+                stream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, stream);
+                });
+
+                peerConnection.ontrack = function(event) {
+                    const remoteVideo = document.getElementById('remoteVideo');
+                    remoteVideo.srcObject = event.streams[0];
+                };
+
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // Here you would send the offer to the other participant
+            } catch (error) {
+                console.error('Error starting video call:', error);
+            }
+        }
+
+        startVideoCall(); // Automatically start the video call when the page loads
+    </script>
+</body>
+</html>
